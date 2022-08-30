@@ -1,4 +1,4 @@
-package com.revature.servlets.models;
+package com.revature.reimbursementapi.models;
 
 public class User {
 
