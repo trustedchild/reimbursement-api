@@ -14,6 +14,19 @@ public class User {
     public User() {
     }
 
+    public User(String user_id, String username, String password) {
+        this.user_id = user_id;
+        this.username = username;
+        this.password = password;
+    }
+
+    public User(String user_id, String username, String password, String role_id) {
+        this.user_id = user_id;
+        this.username = username;
+        this.password = password;
+        this.role_id = role_id;
+    }
+
     public User(String user_id, String username, String email, String password, String given_name, String surname, boolean is_active, String role_id) {
         this.user_id = user_id;
         this.username = username;
@@ -24,6 +37,7 @@ public class User {
         this.is_active = is_active;
         this.role_id = role_id;
     }
+
 
     public String getUser_id() {
         return user_id;

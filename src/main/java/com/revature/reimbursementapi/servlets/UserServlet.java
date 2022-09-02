@@ -23,7 +23,8 @@ public class UserServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //super.doPost(req, resp);
         NewUserRequest newUserRequest = objectMapper.readValue(req.getInputStream(), NewUserRequest.class);
-        resp.getWriter().write(objectMapper.writeValueAsString(newUserRequest));
+        //resp.getWriter().write(objectMapper.writeValueAsString(newUserRequest));
+        System.out.println(req.getRequestURI());
     }
 
 
