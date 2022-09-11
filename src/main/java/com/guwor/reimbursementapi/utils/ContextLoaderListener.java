@@ -2,6 +2,7 @@ package com.guwor.reimbursementapi.utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.guwor.reimbursementapi.daos.UserDAO;
+import com.guwor.reimbursementapi.services.TokenService;
 import com.guwor.reimbursementapi.services.UserService;
 import com.guwor.reimbursementapi.servlets.AuthServlet;
 import com.guwor.reimbursementapi.servlets.UserServlet;
@@ -16,8 +17,8 @@ public class ContextLoaderListener implements ServletContextListener{
         //ServletContextListener.super.contextInitialized(sce);
         ObjectMapper objectMapper = new ObjectMapper();
 
-        UserServlet userServlet = new UserServlet(objectMapper, new UserService(new UserDAO()));
-        AuthServlet authServlet = new AuthServlet(objectMapper, new UserService(new UserDAO()));
+        UserServlet userServlet = new UserServlet(objectMapper, new UserService(new UserDAO()), new TokenService(new JwtConfig()));
+        AuthServlet authServlet = new AuthServlet(objectMapper, new UserService(new UserDAO()), new TokenService(new JwtConfig()));
 
         ServletContext servletContext = sce.getServletContext();
         servletContext.addServlet("UserServlet", userServlet).addMapping("/users/*");

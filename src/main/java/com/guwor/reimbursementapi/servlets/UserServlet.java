@@ -1,6 +1,8 @@
 package com.guwor.reimbursementapi.servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.guwor.reimbursementapi.dtos.responses.Principal;
+import com.guwor.reimbursementapi.services.TokenService;
 import com.guwor.reimbursementapi.utils.custom_exceptions.InvalidRequestException;
 import com.guwor.reimbursementapi.utils.custom_exceptions.ResourceConflictException;
 import com.guwor.reimbursementapi.dtos.requests.NewUserRequest;
@@ -12,14 +14,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 public class UserServlet extends HttpServlet {
     private ObjectMapper objectMapper;
     private UserService userService;
 
-    public UserServlet(ObjectMapper objectMapper, UserService userService) {
+    private TokenService tokenService;
+
+    public UserServlet(ObjectMapper objectMapper, UserService userService, TokenService tokenService) {
         this.objectMapper = objectMapper;
         this.userService = userService;
+        this.tokenService = tokenService;
     }
 
     @Override
@@ -41,7 +47,7 @@ public class UserServlet extends HttpServlet {
                 //resp.getWriter().write(objectMapper.writeValueAsString(createdUser.getUser_id()));
 
             }else {
-                System.out.println("No");
+                System.out.println(path[3] + " URL not found.");
             }
         } catch (InvalidRequestException e) {
             resp.setStatus(404);
@@ -54,5 +60,30 @@ public class UserServlet extends HttpServlet {
         }
     }
 
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        //super.doGet(req, resp);
+        String token = req.getHeader("Authorization");
+        Principal principal = tokenService.extractRequestDetails(token);
 
+        try {
+            if (principal.getRole_id().equals("ADMIN")){
+                String username = req.getParameter("username");
+
+                resp.setContentType("application/json");
+                if (username != null){
+                    resp.getWriter().write(objectMapper.writeValueAsString(userService.getUserByUsername(username)));
+                } else {
+                    List<User> userList = userService.getAllUsers();
+                    resp.getWriter().write(objectMapper.writeValueAsString(userList));
+                }
+            }else {
+                resp.setStatus((403));
+            }
+        }catch (NullPointerException e){
+            resp.setStatus(401);
+        }catch (InvalidRequestException e){
+            resp.setStatus(404);
+        }
+    }
 }

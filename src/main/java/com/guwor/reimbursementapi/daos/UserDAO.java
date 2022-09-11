@@ -86,7 +86,7 @@ public class UserDAO implements CrudDAO<User>{
                 ResultSet rs = ps.executeQuery();
 
                 while (rs.next()) {
-                    User user = new User(rs.getString("user_id"), rs.getString("username"), rs.getString("password"), rs.getString("role_id"));
+                    User user = new User(rs.getString("user_id"), rs.getString("username"), rs.getString("given_name"), rs.getString("surname"), rs.getString("email"), rs.getString("is_active"), rs.getString("role_id"));
                     userList.add(user);
                 }
 

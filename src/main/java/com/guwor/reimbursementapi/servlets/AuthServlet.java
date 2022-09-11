@@ -1,6 +1,7 @@
 package com.guwor.reimbursementapi.servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.guwor.reimbursementapi.services.TokenService;
 import com.guwor.reimbursementapi.services.UserService;
 import com.guwor.reimbursementapi.utils.custom_exceptions.AuthenticationException;
 import com.guwor.reimbursementapi.utils.custom_exceptions.InvalidRequestException;
@@ -18,9 +19,12 @@ public class AuthServlet extends HttpServlet {
     private ObjectMapper objectMapper;
     private UserService userService;
 
-    public AuthServlet(ObjectMapper objectMapper, UserService userService) {
+    private final TokenService tokenService;
+
+    public AuthServlet(ObjectMapper objectMapper, UserService userService, TokenService tokenService) {
         this.objectMapper = objectMapper;
         this.userService = userService;
+        this.tokenService = tokenService;
     }
 
     @Override
@@ -33,7 +37,10 @@ public class AuthServlet extends HttpServlet {
             LoginRequest loginRequest = objectMapper.readValue(req.getInputStream(), LoginRequest.class);
             Principal principal = userService.login(loginRequest);
 
+            String token = tokenService.generateToken(principal);
+
             resp.setStatus(200);
+            resp.setHeader("Authorization", token);
             resp.setContentType("application/json");
             resp.getWriter().write(objectMapper.writeValueAsString(principal));
 //
