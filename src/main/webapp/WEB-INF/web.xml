@@ -12,7 +12,7 @@
 
 <!--    <servlet>-->
 <!--        <servlet-name>TestServlet</servlet-name>-->
-<!--        <servlet-class>com.revature.reimbursementapi.servlets.TestServlet</servlet-class>-->
+<!--        <servlet-class>servlets.com.guwor.reimbursementapi.TestServlet</servlet-class>-->
 <!--    </servlet>-->
 
 <!--    <servlet-mapping>-->
@@ -21,7 +21,7 @@
 <!--    </servlet-mapping>-->
 
     <listener>
-        <listener-class>com.revature.reimbursementapi.utils.ContextLoaderListener</listener-class>
+        <listener-class>com.guwor.reimbursementapi.utils.ContextLoaderListener</listener-class>
     </listener>
 
 </web-app>
