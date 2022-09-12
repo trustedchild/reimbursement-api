@@ -11,7 +11,7 @@ API that supports an internal expense reimbursement system. Registered employees
 - Junit
 - Mockito
 - git
-- Jenkens
+- Jenkins
 - AWS (RDS, EC2)
 - Dbeaver
 
