@@ -1,29 +1,29 @@
-package com.guwor.reimbursementapi.models;
+package com.guwor.reimbursementapi.dtos.requests;
 
-public class User {
+public class UpdateUserRequest {
 
-    private String user_id;
     private String username;
+
     private String email;
+
     private String password;
+
     private String given_name;
+
     private String surname;
-    private String is_active = "FALSE";
-    private String role_id = "EMPLOYEE";
 
-    public User() {
+    private String is_active;
+
+    private String role_id;
+
+    public UpdateUserRequest() {
     }
 
-    public User(String is_active) {
+    public UpdateUserRequest(String is_active) {
         this.is_active = is_active;
     }
-    public User(String user_id, String username, String password) {
-        this.user_id = user_id;
-        this.username = username;
-        this.password = password;
-    }
 
-    public User(String username, String email, String password, String given_name, String surname) {
+    public UpdateUserRequest(String username, String email, String password, String given_name, String surname) {
         this.username = username;
         this.email = email;
         this.password = password;
@@ -31,25 +31,7 @@ public class User {
         this.surname = surname;
     }
 
-    public User(String user_id, String username, String password, String role_id) {
-        this.user_id = user_id;
-        this.username = username;
-        this.password = password;
-        this.role_id = role_id;
-    }
-
-    public User(String user_id, String username, String given_name, String surname, String email, String is_active, String role_id) {
-        this.user_id = user_id;
-        this.username = username;
-        this.given_name = given_name;
-        this.surname = surname;
-        this.email = email;
-        this.is_active = is_active;
-        this.role_id = role_id;
-    }
-
-    public User(String user_id, String username, String email, String password, String given_name, String surname, String is_active, String role_id) {
-        this.user_id = user_id;
+    public UpdateUserRequest(String username, String email, String password, String given_name, String surname, String is_active, String role_id) {
         this.username = username;
         this.email = email;
         this.password = password;
@@ -57,14 +39,6 @@ public class User {
         this.surname = surname;
         this.is_active = is_active;
         this.role_id = role_id;
-    }
-
-    public String getUser_id() {
-        return user_id;
-    }
-
-    public void setUser_id(String user_id) {
-        this.user_id = user_id;
     }
 
     public String getUsername() {
@@ -125,17 +99,15 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
-                "user_id='" + user_id + '\'' +
-                ", username='" + username + '\'' +
+        return "UpdateUserRequest{" +
+                "username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", given_name='" + given_name + '\'' +
                 ", surname='" + surname + '\'' +
-                ", is_active=" + is_active +
+                ", is_active='" + is_active + '\'' +
                 ", role_id='" + role_id + '\'' +
                 '}';
     }
-
 
 }

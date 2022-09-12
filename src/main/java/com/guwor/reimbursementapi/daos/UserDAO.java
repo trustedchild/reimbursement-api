@@ -4,6 +4,8 @@ import com.guwor.reimbursementapi.utils.custom_exceptions.InvalidSQLException;
 import com.guwor.reimbursementapi.models.User;
 import com.guwor.reimbursementapi.utils.database.ConnectionFactory;
 
+import java.io.IOException;
+import java.io.InterruptedIOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -31,14 +33,35 @@ public class UserDAO implements CrudDAO<User>{
         }
 
 
+//        @Override
+//        public void update(User obj) {
+//
+//        }
+
         @Override
         public void update(User obj) {
-
+            try(Connection con = ConnectionFactory.getInstance().getConnection()) {
+                PreparedStatement ps = con.prepareStatement("UPDATE users SET (username=?, email=?, password=?, given_name=?, surname=?, is_active=?, role_id=?) WHERE id=?");
+                ps.setString(1, obj.getUsername());
+                ps.setString(2, obj.getEmail());
+                ps.setString(3, obj.getPassword());
+                ps.setString(4, obj.getGiven_name());
+                ps.setString(5, obj.getSurname());
+                ps.setString(6, obj.getIs_active());
+                ps.setString(7, obj.getRole_id());
+                ps.executeUpdate();
+            }catch (SQLException e){
+                throw new InvalidSQLException("Error while updating record in database.");
+            }
         }
-
         @Override
         public void delete(String id) {
-
+            try(Connection con = ConnectionFactory.getInstance().getConnection()) {
+                PreparedStatement ps = con.prepareStatement("DELETE * FROM users, WHERE id =?");
+                ps.executeUpdate();
+            }catch (SQLException e){
+                throw new InvalidSQLException("Error while deleting record in database.");
+            }
         }
 
         @Override

@@ -1,6 +1,7 @@
 package com.guwor.reimbursementapi.services;
 
 import com.guwor.reimbursementapi.daos.UserDAO;
+import com.guwor.reimbursementapi.dtos.requests.UpdateUserRequest;
 import com.guwor.reimbursementapi.models.User;
 import com.guwor.reimbursementapi.utils.custom_exceptions.AuthenticationException;
 import com.guwor.reimbursementapi.utils.custom_exceptions.InvalidRequestException;
@@ -9,6 +10,7 @@ import com.guwor.reimbursementapi.dtos.requests.LoginRequest;
 import com.guwor.reimbursementapi.dtos.requests.NewUserRequest;
 import com.guwor.reimbursementapi.dtos.responses.Principal;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -41,6 +43,45 @@ public class UserService {
         if (user == null) throw new AuthenticationException("\nWrong username or password.");
         return new Principal(user.getUser_id(), user.getUsername(), user.getRole_id());
     }
+
+    public User updateByAdmin(UpdateUserRequest updateUserRequest) {
+        User user = null;
+        if (updateUserRequest == null) throw new AuthenticationException("\nUnknown user.");
+        user = new User(updateUserRequest.getSurname(), updateUserRequest.getEmail(), updateUserRequest.getPassword(), updateUserRequest.getGiven_name(), updateUserRequest.getSurname(), updateUserRequest.getIs_active(), updateUserRequest.getRole_id());
+        userDAO.update(user);
+        return null;
+    }
+
+    public User updateByCurrentUser(UpdateUserRequest updateUserRequest) {
+        User user = null;
+        if (updateUserRequest == null) throw new AuthenticationException("\nUnknown user.");
+        user = new User(updateUserRequest.getUsername(), updateUserRequest.getEmail(), updateUserRequest.getPassword(), updateUserRequest.getGiven_name(), updateUserRequest.getSurname());
+        userDAO.update(user);
+        return user;
+    }
+
+    public User activateUser(UpdateUserRequest updateUserRequest) {
+        User user = null;
+
+        if (updateUserRequest == null) throw new AuthenticationException("\nUnknown user.");
+
+        user = new User(updateUserRequest.getIs_active());
+        userDAO.update(user);
+
+        return user;
+    }
+
+    public User assignUserRole(UpdateUserRequest updateUserRequest) {
+        User user = null;
+
+        if (updateUserRequest == null) throw new AuthenticationException("\nUnknown user.");
+
+        user = new User(updateUserRequest.getRole_id());
+        userDAO.update(user);
+
+        return null;
+    }
+
 
     public User getUserById(String id) {
         return userDAO.getById(id);
