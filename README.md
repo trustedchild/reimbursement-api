@@ -29,3 +29,6 @@ API that supports an internal expense reimbursement system. Registered employees
 - Add test
 - Add password encryption
 - Refactor codebase
+
+### Contributor
+Thomas Guwor
